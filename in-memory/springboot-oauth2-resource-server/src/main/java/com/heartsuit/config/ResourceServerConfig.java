@@ -19,8 +19,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and().requestMatchers()
                 .anyRequest().and().anonymous().and().authorizeRequests()
-                .antMatchers("/private/read/**").access("#oauth2.hasScope('read') and hasRole('ROLE_USER')")
-                .antMatchers("/private/write/**").access("#oauth2.hasScope('write') and hasRole('ROLE_ADMIN')")
+                .antMatchers("/private/read/**").access("#oauth2.hasScope('read')") //  使用client_credentials是需要去掉 and hasRole('ROLE_ADMIN') ，因为没有用户信息，也就没有对应的角色信息
+                .antMatchers("/private/write/**").access("#oauth2.hasScope('write')")
                 .antMatchers("/private/**").authenticated();
     }
 }

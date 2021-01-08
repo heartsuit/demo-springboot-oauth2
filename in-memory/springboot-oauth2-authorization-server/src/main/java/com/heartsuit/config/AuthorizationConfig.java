@@ -25,15 +25,14 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // http://localhost:9000/oauth/authorize?grant_type=implicit&response_type=token&scope=pc&client_id=client0&client_secret=secret0
+    // http://localhost:9000/oauth/token?grant_type=client_credentials&scope=read%20write&client_id=client2&client_secret=secret2
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("client0")
-                .secret(passwordEncoder().encode("secret0"))
-                .authorizedGrantTypes("implicit", "refresh_token") //Implicit grant type not supported from token endpoint
-                .scopes("read", "write")
-                .redirectUris("http://localhost:8000/public/hello");
+                .withClient("client2")
+                .secret(passwordEncoder().encode("secret2"))
+                .authorizedGrantTypes("client_credentials", "refresh_token") // client_credentials不支持refresh_token
+                .scopes("read", "write");
     }
 
     /**
