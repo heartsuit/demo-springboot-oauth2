@@ -3,7 +3,7 @@ server:
 security:
   oauth2:
     client:
-      client-id: client0
-      client-secret: secret0
+      client-id: client1
+      client-secret: secret1
     resource:
       token-info-uri: http://localhost:9000/oauth/check_token
