@@ -25,7 +25,7 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // http://localhost:9000/oauth/authorize?grant_type=implicit&response_type=token&scope=pc&client_id=client0&client_secret=secret0
+    // http://localhost:9000/oauth/authorize?grant_type=implicit&response_type=token&scope=read20%write&client_id=client0&client_secret=secret0
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
