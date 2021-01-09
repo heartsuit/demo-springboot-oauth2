@@ -1,7 +1,7 @@
 server:
   port: 9000
+
 spring:
-  main.allow-bean-definition-overriding: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oauth2?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&serverTimezone=Asia/Shanghai
@@ -11,3 +11,16 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+
+  redis:
+    database: 0
+    timeout: 5000ms
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
