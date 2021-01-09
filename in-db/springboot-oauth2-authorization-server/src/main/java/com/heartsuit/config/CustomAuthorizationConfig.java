@@ -3,6 +3,7 @@ package com.heartsuit.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -13,7 +14,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 
@@ -23,7 +26,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
+public class CustomAuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     /**
      * Springboot2.x需要配置密码加密，否则报错：Encoded password does not look like BCrypt
      *
@@ -37,13 +40,18 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
     @Bean
     public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
+//        return new InMemoryTokenStore();
+//        return new JdbcTokenStore(dataSource);
+        return new RedisTokenStore(redisConnectionFactory);
     }
 
     @Bean
-    public ClientDetailsService clientDetailsService() {
+    public ClientDetailsService customClientDetailsService() {
         return new JdbcClientDetailsService(dataSource);
     }
 
@@ -67,7 +75,7 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
          * 必须将secret加密后存入数据库，否则报错：Encoded password does not look like BCrypt
          */
         // System.out.println("OK:" + new BCryptPasswordEncoder().encode("secret"));
-        clients.withClientDetails(clientDetailsService());
+        clients.withClientDetails(customClientDetailsService());
     }
 
     /**
