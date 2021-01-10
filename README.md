@@ -9,7 +9,7 @@ OAuth（开放授权）是一个开放标准，允许用户授权第三方应用
   + 简化模式：源码在implicit分支：[https://github.com/heartsuit/demo-springboot-oauth2/tree/implicit/in-memory](https://github.com/heartsuit/demo-springboot-oauth2/tree/implicit/in-memory)
   + 密码模式：源码在password分支：[https://github.com/heartsuit/demo-springboot-oauth2/tree/password/in-memory](https://github.com/heartsuit/demo-springboot-oauth2/tree/password/in-memory)
   + 客户端模式：源码在client分支：[https://github.com/heartsuit/demo-springboot-oauth2/tree/client/in-memory](https://github.com/heartsuit/demo-springboot-oauth2/tree/client/in-memory)
-* OAuth2. 0客户端信息存储在MySQL数据库，access_token存储在内存、MySQL、Redis，源码路径：[hhttps://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-db](hhttps://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-db)
+* OAuth2. 0客户端信息存储在MySQL数据库，access_token存储在内存、MySQL、Redis，源码路径：[https://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-db](https://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-db)
 * OAuth2. 0客户端信息存储在MySQL数据库，access_token存储在JWT，源码路径：[https://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-db-jwt/springboot-oauth2-authorization-server](https://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-db-jwt/springboot-oauth2-authorization-server)  
 
 ### 四种授权方式
