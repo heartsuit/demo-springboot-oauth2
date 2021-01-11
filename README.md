@@ -109,45 +109,19 @@ POST http://localhost:9000/oauth/token?grant_type=client_credentials&scope=api&c
 
    Note: The lines illustrating steps (A), (B), and (C) are broken into
    two parts as they pass through the user-agent. 
-
                      Figure 3: Authorization Code Flow
 
   The flow illustrated in Figure 3 includes the following steps:
 
-   (A)  The client initiates the flow by directing the resource owner's
+   (A)  The client initiates the flow by directing the resource owner's user-agent to the authorization endpoint.  The client includes its client identifier, requested scope, local state, and a redirection URI to which the authorization server will send the user-agent back once access is granted (or denied).
+   
+   (B)  The authorization server authenticates the resource owner (via the user-agent) and establishes whether the resource owner grants or denies the client's access request.
 
-        user-agent to the authorization endpoint.  The client includes
-        its client identifier, requested scope, local state, and a
-        redirection URI to which the authorization server will send the
-        user-agent back once access is granted (or denied).
+   (C)  Assuming the resource owner grants access, the authorization server redirects the user-agent back to the client using the redirection URI provided earlier (in the request or during client registration).  The redirection URI includes an authorization code and any local state provided by the client earlier.
 
-   (B)  The authorization server authenticates the resource owner (via
+   (D)  The client requests an access token from the authorization server's token endpoint by including the authorization code received in the previous step.  When making the request, the client authenticates with the authorization server.  The client includes the redirection URI used to obtain the authorization code for verification.
 
-        the user-agent) and establishes whether the resource owner
-        grants or denies the client's access request.
-
-   (C)  Assuming the resource owner grants access, the authorization
-
-        server redirects the user-agent back to the client using the
-        redirection URI provided earlier (in the request or during
-        client registration).  The redirection URI includes an
-        authorization code and any local state provided by the client
-        earlier.
-
-   (D)  The client requests an access token from the authorization
-
-        server's token endpoint by including the authorization code
-        received in the previous step.  When making the request, the
-        client authenticates with the authorization server.  The client
-        includes the redirection URI used to obtain the authorization
-        code for verification.
-
-   (E)  The authorization server authenticates the client, validates the
-
-        authorization code, and ensures that the redirection URI
-        received matches the URI used to redirect the client in
-        step (C).  If valid, the authorization server responds back with
-        an access token and, optionally, a refresh token.
+   (E)  The authorization server authenticates the client, validates the authorization code, and ensures that the redirection URI received matches the URI used to redirect the client in step (C).  If valid, the authorization server responds back with an access token and, optionally, a refresh token.
 
 #### implicit 简化模式
 
@@ -186,47 +160,23 @@ POST http://localhost:9000/oauth/token?grant_type=client_credentials&scope=api&c
 
    Note: The lines illustrating steps (A) and (B) are broken into two
    parts as they pass through the user-agent. 
-
                        Figure 4: Implicit Grant Flow
 
    The flow illustrated in Figure 4 includes the following steps:
 
-   (A)  The client initiates the flow by directing the resource owner's
+   (A)  The client initiates the flow by directing the resource owner's user-agent to the authorization endpoint.  The client includes its client identifier, requested scope, local state, and a redirection URI to which the authorization server will send the user-agent back once access is granted (or denied). 
 
-        user-agent to the authorization endpoint.  The client includes
-        its client identifier, requested scope, local state, and a
-        redirection URI to which the authorization server will send the
-        user-agent back once access is granted (or denied).
+   (B)  The authorization server authenticates the resource owner (via the user-agent) and establishes whether the resource owner grants or denies the client's access request.
 
-   (B)  The authorization server authenticates the resource owner (via
+   (C)  Assuming the resource owner grants access, the authorization server redirects the user-agent back to the client using the redirection URI provided earlier.  The redirection URI includes the access token in the URI fragment.
 
-        the user-agent) and establishes whether the resource owner
-        grants or denies the client's access request.
+   (D)  The user-agent follows the redirection instructions by making a request to the web-hosted client resource (which does not include the fragment per [RFC2616]).  The user-agent retains the fragment information locally.
 
-   (C)  Assuming the resource owner grants access, the authorization
+   (E)  The web-hosted client resource returns a web page (typically an HTML document with an embedded script) capable of accessing the full redirection URI including the fragment retained by the user-agent, and extracting the access token (and other parameters) contained in the fragment.
 
-        server redirects the user-agent back to the client using the
-        redirection URI provided earlier.  The redirection URI includes
-        the access token in the URI fragment.
+   (F)  The user-agent executes the script provided by the web-hosted client resource locally, which extracts the access token.
 
-   (D)  The user-agent follows the redirection instructions by making a
-
-        request to the web-hosted client resource (which does not
-        include the fragment per [RFC2616]).  The user-agent retains the
-        fragment information locally.
-
-   (E)  The web-hosted client resource returns a web page (typically an
-
-        HTML document with an embedded script) capable of accessing the
-        full redirection URI including the fragment retained by the
-        user-agent, and extracting the access token (and other
-        parameters) contained in the fragment.
-
-   (F)  The user-agent executes the script provided by the web-hosted
-
-        client resource locally, which extracts the access token.
-
-   (G)  The user-agent passes the access token to the client. 
+   (G)  The user-agent passes the access token to the client.
 
 #### password 密码模式
 
@@ -247,25 +197,15 @@ POST http://localhost:9000/oauth/token?grant_type=client_credentials&scope=api&c
      |         |<--(C)---- Access Token ---------<|               |
      |         |    (w/ Optional Refresh Token)   |               |
      +---------+                                  +---------------+
-
             Figure 5: Resource Owner Password Credentials Flow
 
    The flow illustrated in Figure 5 includes the following steps:
 
-   (A)  The resource owner provides the client with its username and
+   (A)  The resource owner provides the client with its username and password.
 
-        password.
+   (B)  The client requests an access token from the authorization server's token endpoint by including the credentials received from the resource owner.  When making the request, the client authenticates with the authorization server.
 
-   (B)  The client requests an access token from the authorization
-
-        server's token endpoint by including the credentials received
-        from the resource owner.  When making the request, the client
-        authenticates with the authorization server.
-
-   (C)  The authorization server authenticates the client and validates
-
-        the resource owner credentials, and if valid, issues an access
-        token.
+   (C)  The authorization server authenticates the client and validates the resource owner credentials, and if valid, issues an access token.
 
 #### client_credentials 客户端模式
 
@@ -276,18 +216,13 @@ POST http://localhost:9000/oauth/token?grant_type=client_credentials&scope=api&c
      |         |<--(B)---- Access Token ---------<|               |
      |         |                                  |               |
      +---------+                                  +---------------+
-
                      Figure 6: Client Credentials Flow
 
    The flow illustrated in Figure 6 includes the following steps:
 
-   (A)  The client authenticates with the authorization server and
+   (A)  The client authenticates with the authorization server and requests an access token from the token endpoint.
 
-        requests an access token from the token endpoint.
-
-   (B)  The authorization server authenticates the client, and if valid, 
-
-        issues an access token.
+   (B)  The authorization server authenticates the client, and if valid, issues an access token.
 
 ### Reference
 
