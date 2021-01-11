@@ -55,23 +55,39 @@ code:wgs8XF
 
 http://localhost:8000/private/hi?access_token=d69bc334-3d5c-4c86-972c-11826f44c4af
 
+![2021-01-11-RequestCode.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-RequestCode.png)
+
+![2021-01-11-TokenCode.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-TokenCode.png)
+
 源码在master分支：[https://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-memory](https://github.com/heartsuit/demo-springboot-oauth2/tree/master/in-memory)
 
 #### implicit 简化模式 不支持refresh token 需结合浏览器测试
 
-GET http://localhost:9000/oauth/authorize?grant_type=implicit&response_type=token&scope=pc&client_id=client0&client_secret=secret0
+GET http://localhost:9000/oauth/authorize?grant_type=implicit&response_type=token&scope=read&client_id=client0&client_secret=secret0
+
+![2021-01-11-RequestImplicit.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-RequestImplicit.png)
+
+![2021-01-11-TokenImplicit.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-TokenImplicit.png)
 
 源码在implicit分支：[https://github.com/heartsuit/demo-springboot-oauth2/tree/implicit/in-memory](https://github.com/heartsuit/demo-springboot-oauth2/tree/implicit/in-memory)
 
 #### password 密码模式
 
-POST http://localhost:9000/oauth/token?username=admin&password=123456&grant_type=password&scope=inner&client_id=client2&client_secret=secret2
+POST http://localhost:9000/oauth/token?username=admin&password=123456&grant_type=password&scope=read&client_id=client1&client_secret=secret1
+
+![2021-01-11-RequestPassword.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-RequestPassword.png)
+
+![2021-01-11-TokenPassword.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-TokenPassword.png)
 
 源码在password分支：[https://github.com/heartsuit/demo-springboot-oauth2/tree/password/in-memory](https://github.com/heartsuit/demo-springboot-oauth2/tree/password/in-memory)
 
 #### client_credentials 客户端模式 不支持refresh token
 
-POST http://localhost:9000/oauth/token?grant_type=client_credentials&scope=api&client_id=client1&client_secret=secret1
+POST http://localhost:9000/oauth/token?grant_type=client_credentials&scope=read&client_id=client2&client_secret=secret2
+
+![2021-01-11-RequestClient.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-RequestClient.png)
+
+![2021-01-11-TokenClient.png](https://github.com/heartsuit/heartsuit.github.io/raw/master/pictures/2021-01-11-TokenClient.png)
 
 源码在client分支：[https://github.com/heartsuit/demo-springboot-oauth2/tree/client/in-memory](https://github.com/heartsuit/demo-springboot-oauth2/tree/client/in-memory)
 
